@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Script Generator - Tạo Kịch Bản TikTok/Reels Tự Động</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+        }
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .typewriter {
+            overflow: hidden;
+            border-right: 3px solid #8b5cf6;
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: 2px;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #8b5cf6 }
+        }
+        .fade-in {
+            animation: fadeIn 1s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-8">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="flex items-center mb-6 md:mb-0">
+                    <i class="fas fa-robot text-4xl mr-4"></i>
+                    <div>
+                        <h1 class="text-3xl font-bold">AI Script Generator</h1>
+                        <p class="text-purple-100">Tạo kịch bản TikTok/Reels tự động với AI</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="bg-white text-purple-600 px-6 py-2 rounded-full font-semibold hover:bg-purple-50 transition">
+                        <i class="fas fa-share-alt mr-2"></i> Chia sẻ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-12">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Input Section -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover sticky top-4">
+                    <div class="bg-purple-50 px-6 py-4 border-b border-purple-100">
+                        <h2 class="text-xl font-semibold text-purple-800">
+                            <i class="fas fa-edit mr-2"></i> Yêu cầu kịch bản
+                        </h2>
+                    </div>
+                    <div class="p-6">
+                        <div class="mb-6">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="scriptTopic">
+                                Chủ đề/chủ điểm chính
+                            </label>
+                            <input 
+                                type="text" 
+                                id="scriptTopic" 
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" 
+                                placeholder="Ví dụ: Cách tiết kiệm tiền hiệu quả">
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="scriptStyle">
+                                Phong cách video
+                            </label>
+                            <select 
+                                id="scriptStyle" 
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                <option value="educational">Giáo dục/hướng dẫn</option>
+                                <option value="comedy">Hài hước/giải trí</option>
+                                <option value="storytelling">Kể chuyện</option>
+                                <option value="challenge">Thử thách/trend</option>
+                                <option value="review">Đánh giá sản phẩm</option>
+                                <option value="inspiration">Truyền cảm hứng</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="scriptDuration">
+                                Độ dài video (giây)
+                            </label>
+                            <select 
+                                id="scriptDuration" 
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                <option value="15">15 giây</option>
+                                <option value="30" selected>30 giây</option>
+                                <option value="60">60 giây</option>
+                                <option value="90">90 giây</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="scriptDetails">
+                                Chi tiết/yêu cầu thêm
+                            </label>
+                            <textarea 
+                                id="scriptDetails" 
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 h-32" 
+                                placeholder="Mô tả thêm về yêu cầu của bạn..."></textarea>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" id="includeHashtags" class="rounded text-purple-600" checked>
+                                <span class="ml-2 text-gray-700">Bao gồm hashtag phù hợp</span>
+                            </label>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" id="includeMusic" class="rounded text-purple-600" checked>
+                                <span class="ml-2 text-gray-700">Gợi ý nhạc nền</span>
+                            </label>
+                        </div>
+
+                        <button id="generateBtn" class="w-full bg-purple-600 text-white py-3 rounded-md hover:bg-purple-700 font-semibold">
+                            <i class="fas fa-magic mr-2"></i> Tạo kịch bản
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Output Section -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover mb-8">
+                    <div class="bg-blue-50 px-6 py-4 border-b border-blue-100">
+                        <h2 class="text-xl font-semibold text-blue-800">
+                            <i class="fas fa-scroll mr-2"></i> Kịch bản video
+                        </h2>
+                    </div>
+                    <div class="p-6">
+                        <div id="scriptOutput" class="min-h-96">
+                            <div class="text-center py-12 text-gray-400">
+                                <i class="fas fa-lightbulb text-4xl mb-4"></i>
+                                <p class="text-xl">Nhập yêu cầu và nhấn "Tạo kịch bản" để bắt đầu</p>
+                                <p class="text-sm mt-2">AI sẽ tạo kịch bản TikTok/Reels hoàn chỉnh cho bạn</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Suggested Visuals -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
+                        <div class="bg-pink-50 px-6 py-4 border-b border-pink-100">
+                            <h2 class="text-xl font-semibold text-pink-800">
+                                <i class="fas fa-images mr-2"></i> Gợi ý hình ảnh
+                            </h2>
+                        </div>
+                        <div class="p-6">
+                            <div id="visualSuggestions" class="grid grid-cols-2 gap-4">
+                                <div class="text-center py-8 text-gray-400">
+                                    <i class="fas fa-image text-2xl mb-2"></i>
+                                    <p class="text-sm">Gợi ý hình ảnh sẽ xuất hiện ở đây</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Suggested Music -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
+                        <div class="bg-green-50 px-6 py-4 border-b border-green-100">
+                            <h2 class="text-xl font-semibold text-green-800">
+                                <i class="fas fa-music mr-2"></i> Gợi ý nhạc nền
+                            </h2>
+                        </div>
+                        <div class="p-6">
+                            <div id="musicSuggestions">
+                                <div class="text-center py-8 text-gray-400">
+                                    <i class="fas fa-music text-2xl mb-2"></i>
+                                    <p class="text-sm">Gợi ý nhạc nền sẽ xuất hiện ở đây</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- How it works -->
+    <section class="bg-gray-100 py-16">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl font-bold text-center mb-8 text-gray-800">Cách sử dụng công cụ</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-md text-center">
+                    <div class="text-purple-500 text-4xl mb-4">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">1. Nhập yêu cầu</h3>
+                    <p class="text-gray-600">Mô tả chủ đề, phong cách và độ dài video bạn muốn tạo</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md text-center">
+                    <div class="text-purple-500 text-4xl mb-4">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">2. AI phân tích</h3>
+                    <p class="text-gray-600">Hệ thống tổng hợp từ Gemini và ChatGPT để tạo kịch bản phù hợp</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md text-center">
+                    <div class="text-purple-500 text-4xl mb-4">
+                        <i class="fas fa-film"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">3. Nhận kịch bản</h3>
+                    <p class="text-gray-600">Nhận kịch bản hoàn chỉnh với phân cảnh, lời thoại và gợi ý hình ảnh</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <h3 class="text-xl font-bold mb-2">AI Script Generator</h3>
+                    <p class="text-gray-400">Công cụ tạo kịch bản video ngắn với AI</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-tiktok"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>© 2023 AI Script Generator. All rights reserved.</p>
+                <p class="text-xs mt-2">Sử dụng AI từ Gemini và ChatGPT để tạo nội dung</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sample script templates
+        const scriptTemplates = {
+            educational: `[Phân cảnh 1: Mở đầu ấn tượng]
+- Hình ảnh: {Chủ đề} xuất hiện với hiệu ứng bắt mắt
+- Lời thoại: "Bạn có biết {sự thật thú vị về chủ đề}? Hôm nay mình sẽ chia sẻ {số lượng} cách {giải quyết vấn đề} hiệu quả nhất!"
+
+[Phân cảnh 2: Nội dung chính]
+- Hình ảnh: Minh họa từng điểm
+- Lời thoại: "Cách 1: {Điểm 1}... Cách 2: {Điểm 2}... Cách 3: {Điểm 3}..."
+
+[Phân cảnh 3: Kết thúc]
+- Hình ảnh: Tổng hợp key points
+- Lời thoại: "Nhớ {lời khuyên chính} nhé! Theo dõi để biết thêm nhiều mẹo hay!"`,
+
+            comedy: `[Phân cảnh 1: Tình huống hài hước]
+- Hình ảnh: Diễn viên thể hiện tình huống {vấn đề}
+- Lời thoại: "Khi bạn {tình huống hài hước}..."
+
+[Phân cảnh 2: Giải quyết vấn đề]
+- Hình ảnh: Minh họa cách giải quyết
+- Lời thoại: "Nhưng chỉ cần {giải pháp đơn giản} là xong ngay!"
+
+[Phân cảnh 3: Kết twist]
+- Hình ảnh: Tình huống bất ngờ
+- Lời thoại: "À mà khoan... {punchline hài hước}"`,
+
+            storytelling: `[Phân cảnh 1: Giới thiệu]
+- Hình ảnh: Cảnh mở đầu gây tò mò
+- Lời thoại: "Đây là câu chuyện về {nhân vật}..."
+
+[Phân cảnh 2: Phát triển]
+- Hình ảnh: Diễn biến câu chuyện
+- Lời thoại: "{Sự kiện quan trọng} đã thay đổi mọi thứ..."
+
+[Phân cảnh 3: Bài học]
+- Hình ảnh: Kết thúc ý nghĩa
+- Lời thoại: "Và đó là lý do {bài học rút ra}..."`
+        };
+
+        // Sample hashtags by category
+        const hashtags = {
+            educational: ["#HọcHỏiMỗiNgày", "#KiếnThứcBổÍch", "#MẹoHay", "#CuộcSốngTốtHơn", "#Tips"],
+            comedy: ["#HàiHước", "#VuiVẻ", "#GiảiTrí", "#CườiLên", "#TikTokVui"],
+            storytelling: ["#CâuChuyện", #"KểChuyện", "#TrảiNghiệm", "#CuộcSống", "#BàiHọc"],
+            challenge: ["#ThửThách", "#Trend", "#HotTrend", "#TháchĐấu", "#TikTokChallenge"],
+            review: ["#ĐánhGiá", "#Review", "#SảnPhẩmTốt", "#TrảiNghiệmThựcTế", "#MuaSắm"],
+            inspiration: ["#TruyềnCảmHứng", "#ThànhCông", "#PhátTriểnBảnThân", "#SốngTíchCực", "#Motivation"]
+        };
+
+        // Sample music suggestions
+        const musicSuggestions = {
+            educational: ["Nhạc nền nhẹ nhàng", "Âm thanh vui tươi", "Nhạc không lời upbeat", "Nhạc acoustic"],
+            comedy: ["Nhạc hài hước", "Âm thanh vui nhộn", "Nhạc remix trend", "Sound effect hài"],
+            storytelling: ["Nhạc piano nhẹ", "Nhạc cảm xúc", "Nhạc không lời sâu lắng", "Nhạc phim"],
+            challenge: ["Nhạc remix hot", "Nhạc trend TikTok", "Bản nhạc viral", "Nhạc EDM"],
+            review: ["Nhạc chill", "Nhạc lounge", "Nhạc jazz nhẹ", "Nhạc cổ điển"],
+            inspiration: ["Nhạc truyền cảm hứng", "Nhạc động lực", "Nhạc mạnh mẽ", "Nhạc phim epic"]
+        };
+
+        // Sample visual suggestions
+        const visualSuggestions = {
+            educational: ["Biểu đồ minh họa", "Hình ảnh so sánh", "Video minh họa từng bước", "Ảnh chụp màn hình"],
+            comedy: ["Cảnh quay diễn viên", "Meme hài hước", "Hoạt hình vui nhộn", "Ảnh chế"],
+            storytelling: ["Ảnh minh họa câu chuyện", "Video quay cảnh", "Hoạt hình minh họa", "Ảnh tư liệu"],
+            challenge: ["Cảnh quay thử thách", "Video hướng dẫn", "Cảnh trước/sau", "Video nhiều góc quay"],
+            review: ["Ảnh sản phẩm", "Video unboxing", "So sánh sản phẩm", "Cận cảnh chi tiết"],
+            inspiration: ["Ảnh thành công", "Video hành trình", "Cảnh quay cảm xúc", "Ảnh động lực"]
+        };
+
+        // DOM Elements
+        const generateBtn = document.getElementById('generateBtn');
+        const scriptOutput = document.getElementById('scriptOutput');
+        const visualSuggestionsEl = document.getElementById('visualSuggestions');
+        const musicSuggestionsEl = document.getElementById('musicSuggestions');
+
+        // Generate script function
+        function generateScript() {
+            const topic = document.getElementById('scriptTopic').value.trim();
+            const style = document.getElementById('scriptStyle').value;
+            const duration = parseInt(document.getElementById('scriptDuration').value);
+            const details = document.getElementById('scriptDetails').value.trim();
+            const includeHashtags = document.getElementById('includeHashtags').checked;
+            const includeMusic = document.getElementById('includeMusic').checked;
+
+            if (!topic) {
+                alert('Vui lòng nhập chủ đề/chủ điểm chính');
+                return;
+            }
+
+            // Show loading state
+            scriptOutput.innerHTML = `
+                <div class="text-center py-12">
+                    <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-purple-600 mb-4"></div>
+                    <p class="text-purple-600 font-semibold">AI đang tạo kịch bản phù hợp...</p>
+                    <p class="text-sm text-gray-500 mt-2">Tổng hợp từ Gemini và ChatGPT</p>
+                </div>
+            `;
+
+            // Simulate API call with timeout
+            setTimeout(() => {
+                // Generate script based on template
+                let script = scriptTemplates[style] || scriptTemplates.educational;
+                
+                // Replace placeholders with actual content
+                script = script
+                    .replace(/{Chủ đề}/g, topic)
+                    .replace(/{sự thật thú vị về chủ đề}/g, getRandomFact(topic))
+                    .replace(/{số lượng}/g, Math.floor(duration/10) || 3)
+                    .replace(/{giải quyết vấn đề}/g, getSolutionForTopic(topic))
+                    .replace(/{Điểm 1}/g, getPoint(topic, 1))
+                    .replace(/{Điểm 2}/g, getPoint(topic, 2))
+                    .replace(/{Điểm 3}/g, getPoint(topic, 3))
+                    .replace(/{lời khuyên chính}/g, getMainAdvice(topic))
+                    .replace(/{vấn đề}/g, getProblem(topic))
+                    .replace(/{tình huống hài hước}/g, getFunnySituation(topic))
+                    .replace(/{giải pháp đơn giản}/g, getSimpleSolution(topic))
+                    .replace(/{punchline hài hước}/g, getPunchline(topic))
+                    .replace(/{nhân vật}/g, getCharacter(topic))
+                    .replace(/{sự kiện quan trọng}/g, getImportantEvent(topic))
+                    .replace(/{bài học rút ra}/g, getLesson(topic));
+
+                // Add details if provided
+                if (details) {
+                    script = `[Yêu cầu đặc biệt: ${details}]\n\n${script}`;
+                }
+
+                // Add duration info
+                script = `[Kịch bản cho video ${duration} giây - Phong cách ${document.getElementById('scriptStyle').options[document.getElementById('scriptStyle').selectedIndex].text}]\n\n${script}`;
+
+                // Format script with line breaks
+                const formattedScript = script.split('\n').map(line => {
+                    if (line.startsWith('[')) {
+                        return `<div class="font-semibold text-purple-600 mt-4 mb-2">${line}</div>`;
+                    } else if (line.startsWith('- ')) {
+                        return `<div class="ml-4 mb-2">${line.substring(2)}</div>`;
+                    }
+                    return `<div class="mb-2">${line}</div>`;
+                }).join('');
+
+                // Add hashtags if enabled
+                let hashtagsSection = '';
+                if (includeHashtags) {
+                    const relevantHashtags = hashtags[style] || hashtags.educational;
+                    hashtagsSection = `
+                        <div class="mt-6 pt-4 border-t border-gray-200">
+                            <div class="font-semibold text-gray-700 mb-2">Hashtag đề xuất:</div>
+                            <div class="flex flex-wrap gap-2">
+                                ${relevantHashtags.map(tag => `<span class="bg-gray-100 px-2 py-1 rounded text-sm">${tag}</span>`).join('')}
+                                <span class="bg-gray-100 px-2 py-1 rounded text-sm">#${topic.replace(/\s+/g, '')}</span>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Final output
+                scriptOutput.innerHTML = `
+                    <div class="fade-in">
+                        <div class="typewriter text-xl font-semibold mb-4">Kịch bản: ${topic}</div>
+                        ${formattedScript}
+                        ${hashtagsSection}
+                    </div>
+                `;
+
+                // Update visual suggestions
+                updateVisualSuggestions(style, topic);
+
+                // Update music suggestions
+                if (includeMusic) {
+                    updateMusicSuggestions(style, topic);
+                }
+            }, 2000);
+        }
+
+        // Helper functions to generate dynamic content
+        function getRandomFact(topic) {
+            const facts = [
+                `90% người thành công đều áp dụng ${topic}`,
+                `Bí mật ít người biết về ${topic}`,
+                `Sự thật bất ngờ về ${topic} sẽ khiến bạn ngạc nhiên`,
+                `${topic} đang trở thành xu hướng năm nay`
+            ];
+            return facts[Math.floor(Math.random() * facts.length)];
+        }
+
+        function getSolutionForTopic(topic) {
+            const solutions = [
+                `thực hiện ${topic}`,
+                `làm chủ ${topic}`,
+                `áp dụng ${topic}`,
+                `xử lý ${topic}`
+            ];
+            return solutions[Math.floor(Math.random() * solutions.length)];
+        }
+
+        function getPoint(topic, index) {
+            const points = [
+                `luôn ${topic} một cách thông minh`,
+                `tập trung vào ${topic} quan trọng nhất`,
+                `tránh những sai lầm khi ${topic}`,
+                `tối ưu hóa quá trình ${topic}`
+            ];
+            return points[index % points.length];
+        }
+
+        function getMainAdvice(topic) {
+            const advices = [
+                `luôn ${topic} đúng cách`,
+                `không bỏ qua bước nào khi ${topic}`,
+                `kiên trì với ${topic}`,
+                `học hỏi từ những người giỏi ${topic}`
+            ];
+            return advices[Math.floor(Math.random() * advices.length)];
+        }
+
+        function getProblem(topic) {
+            const problems = [
+                `gặp vấn đề với ${topic}`,
+                `không biết cách ${topic}`,
+                `làm sai cách ${topic}`,
+                `thất bại khi ${topic}`
+            ];
+            return problems[Math.floor(Math.random() * problems.length)];
+        }
+
+        function getFunnySituation(topic) {
+            const situations = [
+                `cố gắng ${topic} nhưng thất bại`,
+                `nghĩ mình đã ${topic} thành công`,
+                `bắt đầu ${topic} mà không đọc hướng dẫn`,
+                `thử ${topic} theo cách sáng tạo`
+            ];
+            return situations[Math.floor(Math.random() * situations.length)];
+        }
+
+        function getSimpleSolution(topic) {
+            const solutions = [
+                `làm theo hướng dẫn ${topic} này`,
+                `xem video ${topic} của mình`,
+                `dừng ngay việc ${topic} lại`,
+                `hỏi ai đó biết về ${topic}`
+            ];
+            return solutions[Math.floor(Math.random() * solutions.length)];
+        }
+
+        function getPunchline(topic) {
+            const punchlines = [
+                `mình vẫn không biết ${topic} là gì!`,
+                `người duy nhất không biết ${topic} chính là bạn mình!`,
+                `kết quả cuối cùng? Vẫn là không thể ${topic}!`,
+                `và đó là lý do mình không bao giờ ${topic} nữa!`
+            ];
+            return punchlines[Math.floor(Math.random() * punchlines.length)];
+        }
+
+        function getCharacter(topic) {
+            const characters = [
+                `một người đam mê ${topic}`,
+                `ai đó đã thay đổi nhờ ${topic}`,
+                `người bạn giỏi nhất về ${topic} mà tôi biết`,
+                `một chuyên gia về ${topic}`
+            ];
+            return characters[Math.floor(Math.random() * characters.length)];
+        }
+
+        function getImportantEvent(topic) {
+            const events = [
+                `khi anh ấy/cô ấy bắt đầu ${topic}`,
+                `sau khi phát hiện ra bí mật về ${topic}`,
+                `từ khi gặp khó khăn với ${topic}`,
+                `sau khi học được bài học đầu tiên về ${topic}`
+            ];
+            return events[Math.floor(Math.random() * events.length)];
+        }
+
+        function getLesson(topic) {
+            const lessons = [
+                `chúng ta không nên từ bỏ ${topic}`,
+                `${topic} có thể thay đổi cuộc đời bạn`,
+                `bài học về ${topic} sẽ theo bạn suốt đời`,
+                `thành công bắt đầu từ việc ${topic}`
+            ];
+            return lessons[Math.floor(Math.random() * lessons.length)];
+        }
+
+        function updateVisualSuggestions(style, topic) {
+            const visuals = visualSuggestions[style] || visualSuggestions.educational;
+            
+            visualSuggestionsEl.innerHTML = visuals.map((visual, index) => `
+                <div class="bg-gray-100 rounded-lg p-3 text-center">
+                    <div class="bg-purple-100 text-purple-600 rounded-full w-10 h-10 flex items-center justify-center mx-auto mb-2">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    <p class="text-sm font-medium">${visual}</p>
+                    <p class="text-xs text-gray-500 mt-1">${topic} ${index+1}</p>
+                </div>
+            `).join('');
+        }
+
+        function updateMusicSuggestions(style, topic) {
+            const musicList = musicSuggestions[style] || musicSuggestions.educational;
+            
+            musicSuggestionsEl.innerHTML = `
+                <div class="space-y-3">
+                    ${musicList.map(music => `
+                        <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                            <div class="bg-purple-100 text-purple-600 rounded-full w-8 h-8 flex items-center justify-center mr-3">
+                                <i class="fas fa-music"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium">${music}</p>
+                                <p class="text-xs text-gray-500">Phù hợp với ${topic.toLowerCase()}</p>
+                            </div>
+                        </div>
+                    `).join('')}
+                    <div class="text-center pt-2">
+                        <button class="text-purple-600 text-sm font-medium">
+                            <i class="fas fa-search mr-1"></i> Tìm thêm nhạc
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Event listeners
+        generateBtn.addEventListener('click', generateScript);
+
+        // Sample data for demo
+        document.getElementById('scriptTopic').addEventListener('focus', function() {
+            if (!this.value) {
+                this.value = "Cách tạo video TikTok thu hút";
+            }
+        });
+
+        document.getElementById('scriptDetails').addEventListener('focus', function() {
+            if (!this.value) {
+                this.value = "Tôi muốn video có tính giải trí nhưng vẫn cung cấp thông tin hữu ích";
+            }
+        });
+    </script>
+</body>
+</html>
